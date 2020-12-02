@@ -51,6 +51,8 @@ CBRMSR <- R6Class(classname = "CBRMSR",
         #' @field testing.confusion.matrices confusion matrices for the testing sets
         testing.predicted.labels = NULL,
         #' @field testing.predicted.labels predicted classification labels for the testing data
+        retrieved.samples = NULL,
+        #' @field retrieved.samples Which samples were retrieved during testing
         #' @description
         #' Create a new CBRMSR object.
         #' @param predictor A dataframe of predictor variables

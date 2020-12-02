@@ -1,0 +1,175 @@
+---
+title: "Case Based Reasoning with Multi-Stage Retrieval"
+author: "Christopher Bartlett"
+date: "9/22/2020"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Case Based Reasoning with Multi-Stage Retrieval
+
+CBRMSR is Case Based Reasoning with Multi-Stage Retrieval. The package allows for splitting
+or folding, feature selection with a balanced iterative random forest or random KNN algorithm,
+and class balancing with ADASYN or SMOTE. Distance matrices can be created on confounding
+variable data, and numeric predictor variable data. During retrieval, cases are retrieved
+using a confidence metric that automaticallyretrieves cases for each test case until a confidence
+threshold is reached. First, cases are retrieved fromsimilar confounding attributes, followed
+by retrieving from similar predictor attributes.
+
+### Requirements
+Three dataframes are required. 
+
+1. A dataset of predictor values
+2. A  dataset of confounding variables (such as confounding data) to draw samples from first.
+3. A classframe, which is a dataframe with two columns. The first column is sample names and the second column is classification labels.
+
+### Loading CBRMSR
+```{r settingup, echo=FALSE}
+suppressMessages(library(caret))
+suppressMessages(library(smotefamily))
+suppressMessages(library(imbalance))
+suppressMessages(library(randomForest))
+suppressMessages(library(stats))
+suppressMessages(library(sidier))
+suppressMessages(library(R6))
+suppressMessages(library(sna))
+suppressMessages(library(cluster))
+suppressMessages(library(tictoc))
+suppressMessages(library(nomclust))
+suppressMessages(library(analogue))
+suppressMessages(library(data.table))
+suppressMessages(library(rknn))
+suppressMessages(library(plyr))
+```
+
+```{r loading}
+ library(CBRMSR)
+```
+
+### Included Data
+Three dataframes are included for testing purposes. Predictor is a subsetted dataset of unique probes from differentially methylated regions in the TCGA-BRCA dataset. Confounding is the associated confounding variables that have been converted to numeric. Ages were assigned to a group based on their placement in an age range. Classframe is a dataframe where the first column is the TCGA sample names, and the second column is their classification label. 
+
+```{r retrieve}
+data(predictor)
+data(confounding)
+data(classframe)
+```
+
+### Dimensions of the included predictor data
+```{r preddim, echo=FALSE}
+dim(predictor)
+```
+
+### Dimensions of the included confounding data
+```{r confdim, echo=FALSE}
+dim(confounding)
+```
+
+### Dimensions of the included classframe
+```{r classdim, echo=FALSE}
+dim(classframe)
+```
+
+### Quick look at the included predictor data
+```{r predsubset}
+predictor[1:5,1:5]
+```
+
+### Quick look at the included confounding data
+```{r consubset}
+confounding[1:5,1:5]
+```
+
+### Quick look at the included classframe
+```{r classsubset}
+head(classframe, n = 5)
+```
+### Creating a CBRMSR Class object
+```{r creating}
+CBRMSR <- create_CBRMSR(predictor = predictor, confounding = confounding, classframe = classframe)
+```
+
+### Splitting or creating K-Folds
+SplitPercent is the percentage of data that will be used for the training set, in decimal form
+```{r folding}
+CBRMSR <- splitting_module(CBRMSR, SplitPercent = 0.75)
+CBRMSR <- folding_module(CBRMSR, Folds = 10)
+```
+
+### Feature Selection using Balanced Iterative Random Forest
+```{r feature}
+CBRMSR <- selection_module(CBRMSR, method = "BIRF")
+```
+
+### Creating Distance Modules
+Calculate the categorical and numeric distances. Categorical distances can be calculated using the Goodall or the Lin algorithm. 
+```{r distance}
+CBRMSR <- distance_module(CBRMSR, categorical.similarity = "Goodall", confounding.type = "categorical", feature.weights = TRUE)
+```
+
+### Classifying with the two-stage module
+This module runs a two-stage process. First, it retrieves samples from similar confounding factors before reducing the pool of
+retrieved samples through using similarity among the predictor variables. This is done automatically using a confidence metric. Each
+training sample is assigned a confidence value which is the average distance to samples of a different class minus the average distance to samples of the same class. This value is normalized between 0 and 1. This is the last module that should be run.
+
+```{r two-stage}
+CBRMSR <- two_stage_module(CBRMSR)
+```
+
+### Accessors
+Used with \$. Example, if "myCBRMSR" was the name of your CBRMSR object, and you wanted to access the confusion matrices for the testing data, the syntax is: myCBRMSR\$testing.confusion.matrices
+
+* predictor
+  + The original predictor data
+* confounding 
+  + The original confounding data
+* classframe 
+  + The dataframe of samples and classification labels
+* num 
+  + Number of training and testing sets
+* training.sets 
+  + List of dataframes, where the dataframes are training sets
+* testing.sets 
+  + List of dataframes, where the dataframes are testing sets
+* training.labels 
+  + The true classification labels for the training data
+* testing.labels 
+  + The true classification labels for the testing data
+* training.confounding.sets
+  + The subsetted confounding data for the training sets
+* testing.confounding.sets 
+  + The subsetted confounding data for the testing sets
+* selected.features
+  + The remaining features after feature selection and their associated importance levels (mean decrease Gini)
+* feature.weights 
+  + The Mean Decrease Gini for the features 
+* balanced
+  + A boolean value of whether or not class balancing was applied
+* balanced.training.labels 
+  + the classification labels of the training set after balancing
+* balanced.training.sets 
+  + the training datsets after balancing
+* training.confounding.distances
+  + the distance matrices of the training confounding data
+* testing.confounding.distances
+  + the distance matrices of the testing confounding data
+* training.predictor.distances
+  + the distance matrices of the training predictor data
+* testing.predictor.distances
+  + the distance matrices of the testing predictor data
+* training.confusion.matrices
+  + confusion matrices for the training sets
+* training.predicted.labels
+  + predicted classification labels for the training data
+* testing.confusion.matrices
+  + confusion matrices for the testing sets
+* testing.predicted.labels
+  + predicted classification labels for the testing data
+* retrieved.samples
+  + Which samples were retrieved during testing

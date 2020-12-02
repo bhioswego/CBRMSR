@@ -1,0 +1,571 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Case Based Reasoning with Multi-Stage Retrieval},
+  pdfauthor={Christopher Bartlett},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Case Based Reasoning with Multi-Stage Retrieval}
+\author{Christopher Bartlett}
+\date{9/22/2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{case-based-reasoning-with-multi-stage-retrieval}{%
+\subsection{Case Based Reasoning with Multi-Stage
+Retrieval}\label{case-based-reasoning-with-multi-stage-retrieval}}
+
+CBRMSR is Case Based Reasoning with Multi-Stage Retrieval. The package
+allows for splitting or folding, feature selection with a balanced
+iterative random forest or random KNN algorithm, and class balancing
+with ADASYN or SMOTE. Distance matrices can be created on confounding
+variable data, and numeric predictor variable data. During retrieval,
+cases are retrieved using a confidence metric that
+automaticallyretrieves cases for each test case until a confidence
+threshold is reached. First, cases are retrieved fromsimilar confounding
+attributes, followed by retrieving from similar predictor attributes.
+
+\hypertarget{requirements}{%
+\subsubsection{Requirements}\label{requirements}}
+
+Three dataframes are required.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  A dataset of predictor values
+\item
+  A dataset of confounding variables (such as confounding data) to draw
+  samples from first.
+\item
+  A classframe, which is a dataframe with two columns. The first column
+  is sample names and the second column is classification labels.
+\end{enumerate}
+
+\hypertarget{loading-cbrmsr}{%
+\subsubsection{Loading CBRMSR}\label{loading-cbrmsr}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \KeywordTok{library}\NormalTok{(CBRMSR)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{included-data}{%
+\subsubsection{Included Data}\label{included-data}}
+
+Three dataframes are included for testing purposes. Predictor is a
+subsetted dataset of unique probes from differentially methylated
+regions in the TCGA-BRCA dataset. Confounding is the associated
+confounding variables that have been converted to numeric. Ages were
+assigned to a group based on their placement in an age range. Classframe
+is a dataframe where the first column is the TCGA sample names, and the
+second column is their classification label.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data}\NormalTok{(predictor)}
+\KeywordTok{data}\NormalTok{(confounding)}
+\KeywordTok{data}\NormalTok{(classframe)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{dimensions-of-the-included-predictor-data}{%
+\subsubsection{Dimensions of the included predictor
+data}\label{dimensions-of-the-included-predictor-data}}
+
+\begin{verbatim}
+## [1] 500 500
+\end{verbatim}
+
+\hypertarget{dimensions-of-the-included-confounding-data}{%
+\subsubsection{Dimensions of the included confounding
+data}\label{dimensions-of-the-included-confounding-data}}
+
+\begin{verbatim}
+## [1] 500   8
+\end{verbatim}
+
+\hypertarget{dimensions-of-the-included-classframe}{%
+\subsubsection{Dimensions of the included
+classframe}\label{dimensions-of-the-included-classframe}}
+
+\begin{verbatim}
+## [1] 500   1
+\end{verbatim}
+
+\hypertarget{quick-look-at-the-included-predictor-data}{%
+\subsubsection{Quick look at the included predictor
+data}\label{quick-look-at-the-included-predictor-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predictor[}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                              cg18147605 cg18148375 cg18148997 cg18152523
+## TCGA.LQ.A4E4.01A.11D.A268.05  0.8436545  0.5791692 0.60135044  0.8360480
+## TCGA.A1.A0SF.01A.11D.A145.05  0.7245900  0.5324347 0.37988607  0.4634734
+## TCGA.EW.A1IW.01A.11D.A13K.05  0.7779908  0.7234255 0.55021648  0.5508336
+## TCGA.D8.A1XF.01A.11D.A14H.05  0.9170606  0.8335363 0.70180123  0.8459399
+## TCGA.E9.A1NF.11A.73D.A14H.05  0.4335816  0.8366110 0.06576935  0.1782787
+##                              cg18154283
+## TCGA.LQ.A4E4.01A.11D.A268.05 0.19572760
+## TCGA.A1.A0SF.01A.11D.A145.05 0.30015907
+## TCGA.EW.A1IW.01A.11D.A13K.05 0.27859316
+## TCGA.D8.A1XF.01A.11D.A14H.05 0.09398129
+## TCGA.E9.A1NF.11A.73D.A14H.05 0.60262724
+\end{verbatim}
+
+\hypertarget{quick-look-at-the-included-confounding-data}{%
+\subsubsection{Quick look at the included confounding
+data}\label{quick-look-at-the-included-confounding-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{confounding[}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                              definition.group diagnosis.group stage.group
+## TCGA.3C.AALI.01A.11D.A41Q.05                1               2           2
+## TCGA.3C.AALJ.01A.31D.A41Q.05                1               2           2
+## TCGA.5L.AAT0.01A.12D.A41Q.05                1               1           5
+## TCGA.5T.A9QA.01A.11D.A41Q.05                1               3           5
+## TCGA.A1.A0SB.01A.11D.A145.05                1               4           7
+##                              vital.group morphology.group
+## TCGA.3C.AALI.01A.11D.A41Q.05           1                2
+## TCGA.3C.AALJ.01A.31D.A41Q.05           1                2
+## TCGA.5L.AAT0.01A.12D.A41Q.05           1                1
+## TCGA.5T.A9QA.01A.11D.A41Q.05           1                3
+## TCGA.A1.A0SB.01A.11D.A145.05           1                4
+\end{verbatim}
+
+\hypertarget{quick-look-at-the-included-classframe}{%
+\subsubsection{Quick look at the included
+classframe}\label{quick-look-at-the-included-classframe}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(classframe, }\DataTypeTok{n =} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                              Group
+## TCGA.LQ.A4E4.01A.11D.A268.05     C
+## TCGA.A1.A0SF.01A.11D.A145.05     C
+## TCGA.EW.A1IW.01A.11D.A13K.05     C
+## TCGA.D8.A1XF.01A.11D.A14H.05     C
+## TCGA.E9.A1NF.11A.73D.A14H.05     N
+\end{verbatim}
+
+\hypertarget{creating-a-cbrmsr-class-object}{%
+\subsubsection{Creating a CBRMSR Class
+object}\label{creating-a-cbrmsr-class-object}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{CBRMSR <-}\StringTok{ }\KeywordTok{create_CBRMSR}\NormalTok{(}\DataTypeTok{predictor =}\NormalTok{ predictor, }\DataTypeTok{confounding =}\NormalTok{ confounding, }\DataTypeTok{classframe =}\NormalTok{ classframe)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{splitting-or-creating-k-folds}{%
+\subsubsection{Splitting or creating
+K-Folds}\label{splitting-or-creating-k-folds}}
+
+SplitPercent is the percentage of data that will be used for the
+training set, in decimal form
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{CBRMSR <-}\StringTok{ }\KeywordTok{splitting_module}\NormalTok{(CBRMSR, }\DataTypeTok{SplitPercent =} \FloatTok{0.75}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Running the data splitting module-- 
+## Splitting Module Duration: 0 sec elapsed
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{CBRMSR <-}\StringTok{ }\KeywordTok{folding_module}\NormalTok{(CBRMSR, }\DataTypeTok{Folds =} \DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Running the data folding module-- 
+## -- Splitting your data into  10  folds -- 
+## Folding Module Duration: 0.07 sec elapsed
+\end{verbatim}
+
+\hypertarget{feature-selection-using-balanced-iterative-random-forest}{%
+\subsubsection{Feature Selection using Balanced Iterative Random
+Forest}\label{feature-selection-using-balanced-iterative-random-forest}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{CBRMSR <-}\StringTok{ }\KeywordTok{selection_module}\NormalTok{(CBRMSR, }\DataTypeTok{method =} \StringTok{"BIRF"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Running the selection module -- 
+##   |                                                                              |                                                                      |   0%  |                                                                              |=======                                                               |  10%  |                                                                              |==============                                                        |  20%  |                                                                              |=====================                                                 |  30%  |                                                                              |============================                                          |  40%  |                                                                              |===================================                                   |  50%  |                                                                              |==========================================                            |  60%  |                                                                              |=================================================                     |  70%  |                                                                              |========================================================              |  80%  |                                                                              |===============================================================       |  90%  |                                                                              |======================================================================| 100%-- 
+##  The Feature Selection Module has finished -- 
+## 
+## Selection Module Duration: 37.89 sec elapsed
+\end{verbatim}
+
+\hypertarget{creating-distance-modules}{%
+\subsubsection{Creating Distance
+Modules}\label{creating-distance-modules}}
+
+Calculate the categorical and numeric distances. Categorical distances
+can be calculated using the Goodall or the Lin algorithm.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{CBRMSR <-}\StringTok{ }\KeywordTok{distance_module}\NormalTok{(CBRMSR, }\DataTypeTok{categorical.similarity =} \StringTok{"Goodall"}\NormalTok{, }\DataTypeTok{confounding.type =} \StringTok{"categorical"}\NormalTok{, }\DataTypeTok{feature.weights =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Computing distance matrices --
+##   |                                                                              |                                                                      |   0%  |                                                                              |=======                                                               |  10%  |                                                                              |==============                                                        |  20%  |                                                                              |=====================                                                 |  30%  |                                                                              |============================                                          |  40%  |                                                                              |===================================                                   |  50%  |                                                                              |==========================================                            |  60%  |                                                                              |=================================================                     |  70%  |                                                                              |========================================================              |  80%  |                                                                              |===============================================================       |  90%  |                                                                              |======================================================================| 100%
+## Distance Module Duration: 305.88 sec elapsed
+\end{verbatim}
+
+\hypertarget{classifying-with-the-two-stage-module}{%
+\subsubsection{Classifying with the two-stage
+module}\label{classifying-with-the-two-stage-module}}
+
+This module runs a two-stage process. First, it retrieves samples from
+similar confounding factors before reducing the pool of retrieved
+samples through using similarity among the predictor variables. This is
+done automatically using a confidence metric. Each training sample is
+assigned a confidence value which is the average distance to samples of
+a different class minus the average distance to samples of the same
+class. This value is normalized between 0 and 1. This is the last module
+that should be run.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{CBRMSR <-}\StringTok{ }\KeywordTok{two_stage_module}\NormalTok{(CBRMSR)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Average Balanced Accuracy during training was  99.9723 %  -- 
+## -- Average Balanced Accuracy during testing was  99.12118 %  -- 
+## -- Average F Stat during testing was  0.9910658   -- 
+## -- Average Kappa statistic during testing was  0.9581726   -- 
+## Classify Module Duration: 16.07 sec elapsed
+\end{verbatim}
+
+\hypertarget{accessors}{%
+\subsubsection{Accessors}\label{accessors}}
+
+Used with \$. Example, if ``myCBRMSR'' was the name of your CBRMSR
+object, and you wanted to access the confusion matrices for the testing
+data, the syntax is: myCBRMSR\$testing.confusion.matrices
+
+\begin{itemize}
+\tightlist
+\item
+  predictor
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The original predictor data
+  \end{itemize}
+\item
+  confounding
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The original confounding data
+  \end{itemize}
+\item
+  classframe
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The dataframe of samples and classification labels
+  \end{itemize}
+\item
+  num
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Number of training and testing sets
+  \end{itemize}
+\item
+  training.sets
+
+  \begin{itemize}
+  \tightlist
+  \item
+    List of dataframes, where the dataframes are training sets
+  \end{itemize}
+\item
+  testing.sets
+
+  \begin{itemize}
+  \tightlist
+  \item
+    List of dataframes, where the dataframes are testing sets
+  \end{itemize}
+\item
+  training.labels
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The true classification labels for the training data
+  \end{itemize}
+\item
+  testing.labels
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The true classification labels for the testing data
+  \end{itemize}
+\item
+  training.confounding.sets
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The subsetted confounding data for the training sets
+  \end{itemize}
+\item
+  testing.confounding.sets
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The subsetted confounding data for the testing sets
+  \end{itemize}
+\item
+  selected.features
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The remaining features after feature selection and their associated
+    importance levels (mean decrease Gini)
+  \end{itemize}
+\item
+  feature.weights
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The Mean Decrease Gini for the features
+  \end{itemize}
+\item
+  balanced
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A boolean value of whether or not class balancing was applied
+  \end{itemize}
+\item
+  balanced.training.labels
+
+  \begin{itemize}
+  \tightlist
+  \item
+    the classification labels of the training set after balancing
+  \end{itemize}
+\item
+  balanced.training.sets
+
+  \begin{itemize}
+  \tightlist
+  \item
+    the training datsets after balancing
+  \end{itemize}
+\item
+  training.confounding.distances
+
+  \begin{itemize}
+  \tightlist
+  \item
+    the distance matrices of the training confounding data
+  \end{itemize}
+\item
+  testing.confounding.distances
+
+  \begin{itemize}
+  \tightlist
+  \item
+    the distance matrices of the testing confounding data
+  \end{itemize}
+\item
+  training.predictor.distances
+
+  \begin{itemize}
+  \tightlist
+  \item
+    the distance matrices of the training predictor data
+  \end{itemize}
+\item
+  testing.predictor.distances
+
+  \begin{itemize}
+  \tightlist
+  \item
+    the distance matrices of the testing predictor data
+  \end{itemize}
+\item
+  training.confusion.matrices
+
+  \begin{itemize}
+  \tightlist
+  \item
+    confusion matrices for the training sets
+  \end{itemize}
+\item
+  training.predicted.labels
+
+  \begin{itemize}
+  \tightlist
+  \item
+    predicted classification labels for the training data
+  \end{itemize}
+\item
+  testing.confusion.matrices
+
+  \begin{itemize}
+  \tightlist
+  \item
+    confusion matrices for the testing sets
+  \end{itemize}
+\item
+  testing.predicted.labels
+
+  \begin{itemize}
+  \tightlist
+  \item
+    predicted classification labels for the testing data
+  \end{itemize}
+\item
+  retrieved.samples
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Which samples were retrieved during testing
+  \end{itemize}
+\end{itemize}
+
+\end{document}

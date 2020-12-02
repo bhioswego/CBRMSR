@@ -3,11 +3,11 @@
 #'
 #' @docType data
 #'
-#' @usage data(microarray)
+#' @usage data(predictor)
 #'
 #'
 #' @keywords datasets
 #'
 #' @examples
-#' data(microarray)
-"microarray"
+#' data(predictor)
+"predictor"

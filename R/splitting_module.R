@@ -19,7 +19,9 @@ splitting_module <- function(CBRMSR, SplitPercent = 0.75) {
   # Retrieving the data we'll need
   predictor <- CBRMSR$predictor
   classframe <- CBRMSR$classframe
-  confounding <- CBRMSR$confounding
+  if(CBRMSR$confounding != 0) {
+    confounding <- CBRMSR$confounding
+  }
   n = nrow(predictor)
 
   cat("-- Running the data splitting module-- \n")
@@ -50,26 +52,33 @@ splitting_module <- function(CBRMSR, SplitPercent = 0.75) {
     testing_labels[[1]] <- factor(classframe[match(rownames(testing), rownames(classframe)), ])
 
     # Subset the confounding data
-    training_confounding <- confounding[match(rownames(training), rownames(confounding)), ]
-    testing_confounding <- confounding[match(rownames(testing), rownames(confounding)), ]
+    if(CBRMSR$confounding != 0) {
 
+      training_confounding <- confounding[match(rownames(training), rownames(confounding)), ]
+      testing_confounding <- confounding[match(rownames(testing), rownames(confounding)), ]
 
+    }
     # Add them to the lists
     training_sets[[1]] <- training
     testing_sets[[1]] <- testing
 
-    training_confounding_sets[[1]] <- training_confounding
-    testing_confounding_sets[[1]] <- testing_confounding
+    if(CBRMSR$confounding != 0) {
 
+      training_confounding_sets[[1]] <- training_confounding
+      testing_confounding_sets[[1]] <- testing_confounding
+
+    }
     # Now we'll add them to the CBRMSR class object
     CBRMSR$num <- 1
     CBRMSR$training.sets <- training_sets
     CBRMSR$testing.sets <- testing_sets
     CBRMSR$training.labels <- training_labels
     CBRMSR$testing.labels <- testing_labels
-    CBRMSR$training.confounding.sets <- training_confounding_sets
-    CBRMSR$testing.confounding.sets <- testing_confounding_sets
+    if(CBRMSR$confounding != 0) {
 
+      CBRMSR$training.confounding.sets <- training_confounding_sets
+      CBRMSR$testing.confounding.sets <- testing_confounding_sets
+    }
     # Last, we'll determine duration
     toc()
     return(CBRMSR)

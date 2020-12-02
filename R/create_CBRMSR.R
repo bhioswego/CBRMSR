@@ -15,7 +15,7 @@
 #' @export
 
 
-create_CBRMSR <- function(predictor, confounding, classframe) {
+create_CBRMSR <- function(predictor, confounding = 0, classframe) {
   object <- CBRMSR$new(predictor, confounding, classframe)
   return(object)
 }

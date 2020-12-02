@@ -15,7 +15,9 @@ folding_module <- function(CBRMSR, Folds = 10, LOOC = FALSE) {
   # First we'll retrieve the data that we need
   predictor <- CBRMSR$predictor
   classframe <- CBRMSR$classframe
-  confounding <- CBRMSR$confounding
+  if(CBRMSR$confounding != 0) {
+    confounding <- CBRMSR$confounding
+  }
   CBRMSR$num <- Folds
   n = nrow(predictor)
 
@@ -58,12 +60,15 @@ folding_module <- function(CBRMSR, Folds = 10, LOOC = FALSE) {
       testing_labels[[i]] <- factor(classframe[match(rownames(testData), rownames(classframe)), ])
 
       # Subset the confounding data to match a particular training and testing set
-      training_confounding <- confounding[match(rownames(trainData), rownames(confounding)), ]
-      testing_confounding <- confounding[match(rownames(testData), rownames(confounding)), ]
+      if(CBRMSR$confounding != 0) {
+
+        training_confounding <- confounding[match(rownames(trainData), rownames(confounding)), ]
+        testing_confounding <- confounding[match(rownames(testData), rownames(confounding)), ]
 
       # Add the confounding data to their lists
-      training_confounding_sets[[i]] <- training_confounding
-      testing_confounding_sets[[i]] <- testing_confounding
+        training_confounding_sets[[i]] <- training_confounding
+        testing_confounding_sets[[i]] <- testing_confounding
+      }
     }
   }
 
@@ -72,9 +77,10 @@ folding_module <- function(CBRMSR, Folds = 10, LOOC = FALSE) {
   CBRMSR$testing.sets <- testing_sets
   CBRMSR$training.labels <- training_labels
   CBRMSR$testing.labels <- testing_labels
-  CBRMSR$training.confounding.sets <- training_confounding_sets
-  CBRMSR$testing.confounding.sets <- testing_confounding_sets
-
+  if(CBRMSR$confounding != 0) {
+    CBRMSR$training.confounding.sets <- training_confounding_sets
+    CBRMSR$testing.confounding.sets <- testing_confounding_sets
+  }
   # Last, we'll determine duration
   toc()
   return(CBRMSR)

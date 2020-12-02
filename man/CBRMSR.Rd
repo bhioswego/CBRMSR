@@ -59,6 +59,8 @@ This is a class object to store all of the results performed with the modules of
 \item{\code{testing.confusion.matrices}}{confusion matrices for the testing sets}
 
 \item{\code{testing.predicted.labels}}{predicted classification labels for the testing data}
+
+\item{\code{retrieved.samples}}{Which samples were retrieved during testing}
 }
 \if{html}{\out{</div>}}
 }
